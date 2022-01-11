@@ -1,0 +1,14 @@
+.container {
+    margin-top: 50px;
+    width: 600px;
+}
+
+select.form-select {
+    width: 200px;
+    margin: 0px 25px 0px 0px;
+    display: block !important;
+}
+
+.error {
+    color: red;
+}
