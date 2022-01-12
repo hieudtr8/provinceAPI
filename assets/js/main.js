@@ -56,35 +56,73 @@ let inputPassword = form.elements['password'];
 let inputCity = form.elements['city'];
 let inputDistrict = form.elements['district'];
 let registerAccount = {};
+let error = [];
 form.addEventListener('submit', (event) => {
     event.preventDefault();
+    // Validate username
     if (isEmpty(inputUsername.value)) {
-        // alert("Please enter username");
-        showError('username')
+        setError(inputUsername, "Username can not be empty!");
+    } else if (!isValidUsername(inputUsername.value)) {
+        setError(inputUsername, "Not valid username![6 - 20 characters]");
     } else {
         registerAccount.username = inputUsername.value;
-        document.getElementById('username').parentElement.querySelector("span").remove();
+        setSuccess(inputUsername);
     }
+    // Validate password
     if (isEmpty(inputPassword.value)) {
-        showError('password')
+        setError(inputPassword, "Password can not be empty!");
+    } else if (!isValidPassword(inputPassword.value)) {
+        setError(inputPassword, "Password must contain at least 8 characters and one uppercase character!");
     } else {
-        registerAccount.password = CryptoJS.MD5(inputPassword.value).toString();
-        document.getElementById('password').parentElement.querySelector("span").remove();
-
+        registerAccount.password = inputPassword.value;
+        setSuccess(inputPassword);
     }
+    // Validate input city
     if (inputCity.value < 1) {
-        showError('city')
+        setError(inputCity, "Please choose your city!")
     } else {
         registerAccount.city = inputCity.value;
-        document.getElementById('city').parentElement.querySelector("span").remove();
+        setSuccess(inputCity);
+        registerAccount.district = inputDistrict.value;
     }
+    // Add validated user to storage
+    if (validatedRegister(registerAccount.username, registerAccount.password, registerAccount.city)) {
+        // console.log("user", !isEmpty(registerAccount.username) && isValidUsername(registerAccount.username));
+        // console.log("password", !isEmpty(registerAccount.password) && isValidPassword(registerAccount.password));
+        // console.log("city", registerAccount.city != undefined);
+        localStorage.setItem(registerAccount.username, JSON.stringify(registerAccount));
+        alert("Register successfully!");
+        location.reload();
+    };
 
-})
+});
 
 function isEmpty (input) {
-    return (!input || input.length === 0);
+    return (input == undefined || input === '');
 }
-function showError (input) {
-    let span = document.getElementById(input).parentElement.querySelector("span");
-    span.innerText = "Please input " + input;
+function setError (input, message) {
+    const parent = input.parentElement;
+    parent.className = "error-form";
+    const span = parent.querySelector('span');
+    span.innerText = message;
+}
+function setSuccess (input) {
+    const parent = input.parentElement;
+    parent.className = "success";
+    const span = parent.querySelector('span');
+    if (!span.innerText == "") {
+        span.innerText = "";
+    }
+}
+function isValidUsername (input) {
+    var usernameRegex = /^[a-zA-Z0-9]{6,20}$/;
+    return usernameRegex.test(input);
+}
+function isValidPassword (input) {
+    const regext = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.{8,})");
+    return regext.test(input);
+    // https://www.javascripttutorial.net/javascript-dom/javascript-form-validation/
+}
+function validatedRegister (username, password, city) {
+    return !isEmpty(username) && isValidUsername(username) && !isEmpty(password) && isValidPassword(password) && (city != undefined);
 }

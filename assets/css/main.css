@@ -12,3 +12,20 @@ select.form-select {
 .error {
     color: red;
 }
+
+.error-form input {
+    border-color: #e74c3c;
+
+}
+
+.error-form select {
+    border-color: #e74c3c;
+}
+
+.success input {
+    border-color: #2ecc71;
+}
+
+.success select {
+    border-color: #2ecc71;
+}
