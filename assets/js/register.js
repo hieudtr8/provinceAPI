@@ -1,8 +1,8 @@
 
 loadProvinceAPI();
 
-// let submitButton = document.getElementById("btnSubmit");
-// submitButton.addEventListener('click', Register);
+const originURL = window.location.origin + "/provinceAPI"
+document.getElementById('back-to-login').href = originURL
 
 function loadProvinceAPI () {
     url = 'https://provinces.open-api.vn/api/?depth=3';
@@ -49,6 +49,7 @@ function loadProvinceAPI () {
             console.log('Error: ', error);
         });
 };
+
 // ===========  Register action =============
 form = document.getElementById('register-form');
 let inputUsername = form.elements['username'];
@@ -57,13 +58,33 @@ let inputCity = form.elements['city'];
 let inputDistrict = form.elements['district'];
 let registerAccount = {};
 let error = [];
+
+if (localStorage.getItem("listUsers") !== null) {
+    listUsers = JSON.parse(localStorage.listUsers);
+} else {
+    listUsers = [];
+}
 form.addEventListener('submit', (event) => {
     event.preventDefault();
     // Validate username
+    validateInput(inputUsername.value, inputPassword.value, inputCity.value, inputDistrict.value);
+    // Add validated user to storage
+    if (validatedRegister(registerAccount.username, registerAccount.password, registerAccount.city)) {
+        registerAccount.password = CryptoJS.MD5(registerAccount.password).toString();
+        listUsers.push(registerAccount);
+        localStorage.setItem("listUsers", JSON.stringify(listUsers));
+        alert("Register successfully!");
+        window.location.replace(originURL);
+    };
+
+});
+function validateInput (username, password, city, district) {
     if (isEmpty(inputUsername.value)) {
         setError(inputUsername, "Username can not be empty!");
-    } else if (!isValidUsername(inputUsername.value)) {
+    } else if (!isValid(inputUsername.value, "username")) {
         setError(inputUsername, "Not valid username![6 - 20 characters]");
+    } else if (isExist(inputUsername.value)) {
+        setError(inputUsername, "Username already existed!");
     } else {
         registerAccount.username = inputUsername.value;
         setSuccess(inputUsername);
@@ -71,7 +92,7 @@ form.addEventListener('submit', (event) => {
     // Validate password
     if (isEmpty(inputPassword.value)) {
         setError(inputPassword, "Password can not be empty!");
-    } else if (!isValidPassword(inputPassword.value)) {
+    } else if (!isValid(inputPassword.value, "password")) {
         setError(inputPassword, "Password must contain at least 8 characters and one uppercase character!");
     } else {
         registerAccount.password = inputPassword.value;
@@ -85,24 +106,22 @@ form.addEventListener('submit', (event) => {
         setSuccess(inputCity);
         registerAccount.district = inputDistrict.value;
     }
-    // Add validated user to storage
-    if (validatedRegister(registerAccount.username, registerAccount.password, registerAccount.city)) {
-        // console.log("user", !isEmpty(registerAccount.username) && isValidUsername(registerAccount.username));
-        // console.log("password", !isEmpty(registerAccount.password) && isValidPassword(registerAccount.password));
-        // console.log("city", registerAccount.city != undefined);
-        localStorage.setItem(registerAccount.username, JSON.stringify(registerAccount));
-        alert("Register successfully!");
-        location.reload();
-    };
-
-});
-
+}
 function isEmpty (input) {
     return (input == undefined || input === '');
 }
+function isExist (username) {
+    for (let i = 0; i < listUsers.length; i++) {
+        if (listUsers[i].username == username) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
 function setError (input, message) {
     const parent = input.parentElement;
-    parent.className = "error-form";
+    parent.className = "error-form mb-3";
     const span = parent.querySelector('span');
     span.innerText = message;
 }
@@ -114,15 +133,16 @@ function setSuccess (input) {
         span.innerText = "";
     }
 }
-function isValidUsername (input) {
-    var usernameRegex = /^[a-zA-Z0-9]{6,20}$/;
-    return usernameRegex.test(input);
-}
-function isValidPassword (input) {
-    const regext = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.{8,})");
-    return regext.test(input);
+function isValid (input, type) {
+    let regex = "";
+    if (type = "username") {
+        regex = /^[a-zA-Z0-9]{6,20}$/;
+    } else if (type = "password") {
+        regex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.{8,})");
+    }
+    return regex.test(input);
     // https://www.javascripttutorial.net/javascript-dom/javascript-form-validation/
 }
 function validatedRegister (username, password, city) {
-    return !isEmpty(username) && isValidUsername(username) && !isEmpty(password) && isValidPassword(password) && (city != undefined);
+    return !isEmpty(username) && isValid(username, "username") && !isEmpty(password) && isValid(password, "password") && (city != undefined);
 }

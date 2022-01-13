@@ -5,43 +5,30 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="assets/img/favicon.png">
+    <link rel="icon" href="assets/img/login.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/css/main.css">
 
-    <title>Đăng ký</title>
+    <title>Login</title>
 </head>
 
 <body>
-    <div class="container">
-        <form id='register-form' action="">
-            <div class="mb-3">
-                <label for="username" class="form-label" >Username</label>
-                <input type="text" name='username' class="form-control" id="username" placeholder="Username" >
-                <span class="error"></span>
+    <div class="container border px-5">
+        <h2 class='my-4 text-center'>Login</h2>
+        <form id='login-form' action="" method=''>
+            <div class="mb-4">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" name='username' class="form-control" id="username" placeholder="Username">
             </div>
-            <div class="mb-3">
+            <div class="mb-2">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" placeholder="Password">
-                <span class="error"></span>
+                <input type="password" name='password' class="form-control" id="password" placeholder="Password">
             </div>
-            <div class="mb-3 d-flex">
-                <div id="">
-                    <label for="city" class="form-label">City: </label>
-                    <select name="city" class='form-select' id="city">
-                        <option value="0" readonly>Choose your city</option>
-                    </select>
-                    <span class="error"></span>
-                </div>
-                <div id="">
-                    <label for="district" class='form-label'>District: </label>
-                    <select name="district" class='form-select' id="district">
-                        <option value="0" readonly>Choose your district</option>
-                    </select>
-                </div>
-            </div>
-            <input type="submit" id='btnSubmit' value="Register" class='btn btn-primary'>
+            <span class="error"></span>
+            <input type="submit" id='btnLogin' value="Login" class='btn btn-primary mx-auto d-grid mb-2 mt-3'>
+            <a id='to-register' class='text-center d-block text-decoration-none mb-3' href="">Don't have an account?
+                Click here to register</a>
         </form>
     </div>
 </body>
@@ -49,4 +36,4 @@
 </html>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/core.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.js"></script>
-<script src="assets/js/main.js"></script>
+<script src="assets/js/login.js"></script>
