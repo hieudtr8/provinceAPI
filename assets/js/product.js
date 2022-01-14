@@ -101,8 +101,8 @@ function writeListProducts (product, i) {
 // Awesome noti
 if (window.location.hash == "#add-success") {
     new AWN().success('Add product successfully');
-    removeNoti();
 };
+removeNoti();
 
 function removeNoti () {
     const noti_container = document.getElementById("awn-toast-container");

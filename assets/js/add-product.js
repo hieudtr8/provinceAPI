@@ -1,7 +1,9 @@
 // SET URL 
 const originURl = window.location.origin + "/provinceAPI"
 const productManagerURL = originURl + "/product.html"
-document.querySelector("#back-to-product-manager").href = productManagerURL;
+
+document.querySelector('#back-to-product-manager').href = productManagerURL;
+document.querySelector('#back-product-manager').href = productManagerURL;
 
 // ================ Add product ================
 const addProductForm = document.getElementById('add-product-form');
