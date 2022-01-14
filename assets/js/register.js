@@ -65,9 +65,10 @@ if (localStorage.getItem("listUsers") !== null) {
     listUsers = [];
 }
 form.addEventListener('submit', (event) => {
+    registerAccount = {};
     event.preventDefault();
     // Validate username
-    validateInput(inputUsername.value, inputPassword.value, inputCity.value, inputDistrict.value);
+    validateInput(inputUsername, inputPassword, inputCity, inputDistrict);
     // Add validated user to storage
     if (validatedRegister(registerAccount.username, registerAccount.password, registerAccount.city)) {
         registerAccount.password = CryptoJS.MD5(registerAccount.password).toString();
@@ -79,36 +80,33 @@ form.addEventListener('submit', (event) => {
 
 });
 function validateInput (username, password, city, district) {
-    if (isEmpty(inputUsername.value)) {
-        setError(inputUsername, "Username can not be empty!");
-    } else if (!isValid(inputUsername.value, "username")) {
-        setError(inputUsername, "Not valid username![6 - 20 characters]");
-    } else if (isExist(inputUsername.value)) {
-        setError(inputUsername, "Username already existed!");
+    if (!username.value) {
+        setError(username, "Username can not be empty!");
+    } else if (!isValid(username.value, "username")) {
+        setError(username, "Not valid username![6 - 20 characters]");
+    } else if (isExist(username.value)) {
+        setError(username, "Username already existed!");
     } else {
-        registerAccount.username = inputUsername.value;
-        setSuccess(inputUsername);
+        registerAccount.username = username.value;
+        setSuccess(username);
     }
     // Validate password
-    if (isEmpty(inputPassword.value)) {
-        setError(inputPassword, "Password can not be empty!");
-    } else if (!isValid(inputPassword.value, "password")) {
-        setError(inputPassword, "Password must contain at least 8 characters and one uppercase character!");
+    if (!password.value) {
+        setError(password, "Password can not be empty!");
+    } else if (!isValid(password.value, "password")) {
+        setError(password, "Password must contain at least 8 characters and one uppercase character!");
     } else {
-        registerAccount.password = inputPassword.value;
-        setSuccess(inputPassword);
+        registerAccount.password = password.value;
+        setSuccess(password);
     }
     // Validate input city
-    if (inputCity.value < 1) {
-        setError(inputCity, "Please choose your city!")
+    if (city.value < 1) {
+        setError(city, "Please choose your city!")
     } else {
-        registerAccount.city = inputCity.value;
-        setSuccess(inputCity);
-        registerAccount.district = inputDistrict.value;
+        registerAccount.city = city.value;
+        setSuccess(city);
+        registerAccount.district = district.value;
     }
-}
-function isEmpty (input) {
-    return (input == undefined || input === '');
 }
 function isExist (username) {
     for (let i = 0; i < listUsers.length; i++) {
@@ -135,14 +133,14 @@ function setSuccess (input) {
 }
 function isValid (input, type) {
     let regex = "";
-    if (type = "username") {
+    if (type == "username") {
         regex = /^[a-zA-Z0-9]{6,20}$/;
-    } else if (type = "password") {
+    } else if (type == "password") {
         regex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.{8,})");
     }
     return regex.test(input);
     // https://www.javascripttutorial.net/javascript-dom/javascript-form-validation/
 }
 function validatedRegister (username, password, city) {
-    return !isEmpty(username) && isValid(username, "username") && !isEmpty(password) && isValid(password, "password") && (city != undefined);
+    return (username) && isValid(username, "username") && (password) && isValid(password, "password") && (city != undefined);
 }

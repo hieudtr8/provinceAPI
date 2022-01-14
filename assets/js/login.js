@@ -11,10 +11,18 @@ if (localStorage.getItem("listUsers") !== null) {
 } else {
     listUsers = [];
 }
+let currentUser = {};
 formLogin.addEventListener('submit', (event) => {
     event.preventDefault();
     if (isCorrect(inputUsername.value, inputPassword.value)) {
-        setSuccess(inputUsername);
+        console.log("ok");
+        setSuccess();
+        for (let i = 0; i < listUsers.length; i++) {
+            if (listUsers[i].username == inputUsername.value) {
+                currentUser = listUsers[i];
+            }
+        }
+        localStorage.setItem("currentUser", JSON.stringify(currentUser));
         alert("Login success!");
         window.location.replace(productURL);
     } else {
