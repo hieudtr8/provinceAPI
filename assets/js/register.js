@@ -74,8 +74,7 @@ form.addEventListener('submit', (event) => {
         registerAccount.password = CryptoJS.MD5(registerAccount.password).toString();
         listUsers.push(registerAccount);
         localStorage.setItem("listUsers", JSON.stringify(listUsers));
-        alert("Register successfully!");
-        window.location.replace(originURL);
+        window.location.replace(originURL + "#register-success");
     };
 
 });
@@ -125,7 +124,7 @@ function setError (input, message) {
 }
 function setSuccess (input) {
     const parent = input.parentElement;
-    parent.className = "success";
+    parent.className = "success mb-4";
     const span = parent.querySelector('span');
     if (!span.innerText == "") {
         span.innerText = "";

@@ -1,5 +1,3 @@
-// <script src="register.js"></script>
-
 // SET URL 
 const originURl = window.location.origin + "/provinceAPI"
 const productManagerURL = originURl + "/product.html"
@@ -20,19 +18,16 @@ if (localStorage.getItem("listProducts") !== null) {
     listProducts = [];
 }
 addProductForm.addEventListener('submit', (event) => {
-    product = {};
+    // product = {};
     event.preventDefault();
     // Validate username
     validateProduct(inputProductID, inputProductName, inputProductPrice, inputType);
-
     if (validatedProductObject(product.id, product.productName, product.price, product.type)) {
         listProducts.push(product);
         localStorage.setItem("listProducts", JSON.stringify(listProducts));
-        alert("Add product successfully!");
-        window.location.replace(productManagerURL);
+        window.location.replace(productManagerURL + "#add-success");
     }
 });
-
 function validateProduct (id, name, price, type) {
     //  Validate name
     if (!id.value) {

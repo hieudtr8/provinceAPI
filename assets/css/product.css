@@ -102,7 +102,9 @@ span.greeting {
     border-width: 0;
     border-radius: 0;
 }
-
+a#logOut{
+    cursor: pointer;
+}
 .form-control-dark {
     color: #fff;
     background-color: rgba(255, 255, 255, .1);

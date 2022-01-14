@@ -30,7 +30,7 @@ editProductForm.addEventListener('submit', (event) => {
             }
         }
         localStorage.setItem("listProducts", JSON.stringify(listProducts));
-        alert("Edit product successfully!");
+        new AWN().success('Edit product successfully');
     }
 });
 

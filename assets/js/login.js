@@ -23,7 +23,6 @@ formLogin.addEventListener('submit', (event) => {
             }
         }
         localStorage.setItem("currentUser", JSON.stringify(currentUser));
-        alert("Login success!");
         window.location.replace(productURL);
     } else {
         setError("Incorrect username or password");
@@ -47,4 +46,21 @@ function setSuccess () {
     if (!span.innerText == "") {
         span.innerText = "";
     }
+}
+// Awesome noti
+if (window.location.hash == "#register-success") {
+    new AWN().success('Register successfully');
+};
+removeNoti();
+
+function removeNoti () {
+    const noti_container = document.getElementById("awn-toast-container");
+    setTimeout(function () {
+        box_message = noti_container.querySelector(".awn-toast-success");
+        if (box_message == null) {
+            history.pushState("", document.title, window.location.pathname
+                + window.location.search);
+        }
+    }, 5500)
+
 }

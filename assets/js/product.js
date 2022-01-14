@@ -5,7 +5,7 @@ const originURL = window.location.origin + "/provinceAPI"
 const editURL = originURL + "/edit-product.html";
 const productManageURL = originURL + "/product.html"
 document.getElementById('back-to-product-manage').href = productManageURL
-
+let notifier = new AWN();
 
 if (localStorage.getItem("currentUser") !== null) {
     currentUser = JSON.parse(localStorage.currentUser);
@@ -40,9 +40,9 @@ function removeProduct (id) {
         for (let i = 0; i < listProducts.length; i++) {
             if (listProducts[i].id == id) {
                 listProducts.splice(i, 1);
-                updateLocalStorage(listProducts);
             }
         }
+        updateLocalStorage(listProducts);
     }
     window.location.reload();
 }
@@ -97,4 +97,22 @@ function writeListProducts (product, i) {
     tr.appendChild(productType);
     tr.appendChild(btnAction);
     table_list.appendChild(documentFragment);
+}
+// Awesome noti
+if (window.location.hash == "#add-success") {
+    new AWN().success('Add product successfully');
+    removeNoti();
+};
+
+function removeNoti () {
+    const noti_container = document.getElementById("awn-toast-container");
+    setTimeout(function () {
+        box_message = noti_container.querySelector(".awn-toast-success");
+        if (box_message == null) {
+            history.pushState("", document.title, window.location.pathname
+                + window.location.search);
+        }
+        console.log("ok");
+    }, 5500)
+
 }
