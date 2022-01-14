@@ -30,12 +30,11 @@ formLogin.addEventListener('submit', (event) => {
 });
 function isCorrect (username, password) {
     for (let i = 0; i < listUsers.length; i++) {
-        if (listUsers[i].username == username && listUsers[i].password == CryptoJS.MD5(password).toString()) {
-            return true;
-        } else {
-            return false;
+        if (username == listUsers[i].username && CryptoJS.MD5(password).toString() == listUsers[i].password) {
+            return true
         }
     }
+    return false;
 }
 function setError (message) {
     const span = document.querySelector('span');
